@@ -1,0 +1,24 @@
+# File managed by Puppet  on <%= scope.lookupvar('nodeclassify::puppet_server') %>
+RHN_PARENT=<%= @proxy_rhn_parent %>
+TRACEBACK_EMAIL=<%= @proxy_traceback_mail %>
+USE_SSL=<%= @proxy_use_ssl %>
+SSL_ORG=<%=  @proxy_ssl_org %>
+SSL_ORGUNIT=<%= @proxy_ssl_orgunit %>
+SSL_CITY=<%= @proxy_ssl_city %>
+SSL_STATE=<%= @proxy_ssl_state %>
+SSL_COUNTRY=<%= @proxy_ssl_country %>
+SSL_PASSWORD=<%= @proxy_ssl_password %>
+SSL_EMAIL=<%= @traceback_mail %>
+SSL_CNAME=<%= @proxy_ssl_cname %>
+SSL_COMMON="<%= @proxy_ssl_common %>"
+CA_CHAIN=<%= @proxy_ca_chain %>
+START_SERVICES=<%= @proxy_start_services %>
+INSTALL_MONITORING=<%= @proxy_install_monitoring %>
+ENABLE_SCOUT=<%= @proxy_enable_scout %>
+POPULATE_CONFIG_CHANNEL=<%= @proxy_populate_config_channel %>
+VERSION=<%= @proxy_version %>
+HTTP_PROXY=<%= @proxy_http_proxy %>
+HTTP_USERNAME=<%= @proxy_http_proxy_username %>
+HTTP_PASSWORD=<%= @proxy_http_proxy_password %>
+MONITORING_PARENT=<%= @proxy_rhn_parent %>
+MONITORING_PARENT_IP=<%= @proxy_monitoring_parent_ip %>

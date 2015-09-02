@@ -1,0 +1,201 @@
+class apache::suse inherits apache {
+	#####package==start######
+	package {
+		"apache-prefork":
+		name    => "apache2-prefork",
+		ensure  => installed,
+	}
+
+	package {
+		"apache-utils":
+		name    => "apache2-utils",
+		ensure  => installed,
+	}
+
+	#####package==end######
+
+	#####config==start#####
+	File["httpd.conf"]{
+		content	=>template("apache/suse/httpd.conf.erb"),
+	}
+
+
+	file {
+		"apache2":
+		mode	=>'0644',
+		owner	=>'root',
+		group	=>'root',
+		ensure	=>present,
+		path	=>"/etc/sysconfig/apache2",
+		content =>template("apache/suse/apache2.erb"),
+	}
+
+	file {
+		"default-server.conf":
+		mode    =>'0644',
+		owner   =>'root',
+		group   =>'root',
+		ensure  =>present,
+		path    => "/etc/apache2/default-server.conf",
+		content =>template("apache/suse/default-server.conf.erb"),
+	}
+
+	file {
+		"mod_mime-defaults.conf":
+		mode	=>'0644',
+		owner	=>'root',
+		group	=>'root',
+		ensure	=>present,
+		path	=>"/etc/apache2/mod_mime-defaults.conf",
+		content =>template("apache/suse/mod_mime-defaults.conf.erb"),
+	}
+
+	file {
+		"errors.conf":
+		mode	=>'0644',
+		owner	=>'root',
+		group	=>'root',
+		ensure	=>present,
+		path	=>"/etc/apache2/errors.conf",
+		content =>template("apache/suse/errors.conf.erb"),
+	}
+
+	file {
+		"magic":
+		mode	=>'0644',
+		owner	=>'root',
+		group	=>'root',
+		ensure	=>present,
+		path	=>"/etc/apache2/magic",
+		content =>template("apache/suse/magic.erb"),
+	}
+
+
+	file {
+		"uid.conf":
+		mode	=>'0644',
+		owner	=>'root',
+		group	=>'root',
+		ensure	=>present,
+		path	=>"/etc/apache2/uid.conf",
+		content =>template("apache/suse/uid.conf.erb"),
+	}
+
+	file {
+		"mod_userdir.conf":
+		mode	=>'0644',
+		owner	=>'root',
+		group	=>'root',
+		ensure	=>present,
+		path	=>"/etc/apache2/mod_userdir.conf",
+		content =>template("apache/suse/mod_userdir.conf.erb"),
+	}
+
+
+	file {
+		"mod_autoindex-defaults.conf":
+		mode	=>'0644',
+		owner	=>'root',
+		group	=>'root',
+		ensure	=>present,
+		path	=>"/etc/apache2/mod_autoindex-defaults.conf",
+		content =>template("apache/suse/mod_autoindex-defaults.conf.erb"),
+	}
+
+	file {
+		"charset.conv":
+		mode	=>'0644',
+		owner	=>'root',
+		group	=>'root',
+		ensure	=>present,
+		path	=>"/etc/apache2/charset.conv",
+		content =>template("apache/suse/charset.conv.erb"),
+	}
+
+
+	file {
+		"mod_log_config.conf":
+		mode	=>'0644',
+		owner	=>'root',
+		group	=>'root',
+		ensure	=>present,
+		path	=>"/etc/apache2/mod_log_config.conf",
+		content =>template("apache/suse/mod_log_config.conf.erb"),
+	}
+
+	file {
+		"server-tuning.conf":
+		mode	=>'0644',
+		owner	=>'root',
+		group	=>'root',
+		ensure	=>present,
+		path	=>"/etc/apache2/server-tuning.conf",
+		content =>template("apache/suse/server-tuning.conf.erb"),
+	}
+
+	file {
+		"listen.conf":
+		mode	=>'0644',
+		owner	=>'root',
+		group	=>'root',
+		ensure	=>present,
+		path	=>"/etc/apache2/listen.conf",
+		content =>template("apache/suse/listen.conf.erb"),
+	}
+	
+	file {
+		"ssl-global.conf":
+		mode	=>'0644',
+		owner	=>'root',
+		group	=>'root',
+		ensure	=>present,
+		path	=>"/etc/apache2/ssl-global.conf",
+		content =>template("apache/suse/ssl-global.conf.erb"),
+	}
+
+	file {
+		"mod_status.conf":
+		mode	=>'0644',
+		owner	=>'root',
+		group	=>'root',
+		ensure	=>present,
+		path	=>"/etc/apache2/mod_status.conf",
+		content =>template("apache/suse/mod_status.conf.erb"),
+	}
+	
+	file {
+		"mod_usertrack.conf":
+		mode	=>'0644',
+		owner	=>'root',
+		group	=>'root',
+		ensure	=>present,
+		path	=>"/etc/apache2/mod_usertrack.conf",
+		content =>template("apache/suse/mod_usertrack.conf.erb"),
+	}
+
+	#####config==end#####
+	
+	#####service==start#####
+	Service["apache"]{
+		name		=> "apache2",
+		subscribe	+> [
+			File["apache2"],
+			File["mod_mime-defaults.conf"],
+			File["errors.conf"],
+			File["magic"],
+			File["uid.conf"],
+			File["mod_userdir.conf"],
+			File["mod_autoindex-defaults.conf"],
+			File["charset.conv"],
+			File["mod_log_config.conf"],
+			File["server-tuning.conf"],
+			File["listen.conf"],
+			File["ssl-global.conf"],
+			File["mod_status.conf"],
+			File["mod_usertrack.conf"]
+		],
+	}
+
+	#####service==end#####
+}
+

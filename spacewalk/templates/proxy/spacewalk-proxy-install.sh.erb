@@ -1,0 +1,36 @@
+#!/usr/bin/expect -f
+# Parameters:
+# Usage: scriptname.sh spacewalk_username spacewalk_password
+# If the answers script sends config configuration up need config username password
+# The script will then call the defalt answers file and silently install spacewalk proxy
+# File managed by Puppet  on <%= scope.lookupvar('nodeclassify::puppet_server') %>
+#
+<% if @proxy_populate_config_channel != "0" %>
+set username [lrange $argv 0 0]
+set password [lrange $argv 1 1]
+<% end %>
+set force_conservative 1  ;# set to 1 to force conservative mode even if
+                          ;# script wasn't run conservatively originally
+if {$force_conservative} {
+        set send_slow {1 .1}
+        proc send {ignore arg} {
+                sleep .1
+                exp_send -s -- $arg
+        }
+}
+set timeout -1
+spawn /usr/sbin/configure-proxy.sh --answer-file=<%= @answer_file %>
+
+#if prompted for anything send y note timeout
+expect -timeout 60 "Is this ok" { send -- "y\r"; exp_continue }
+
+<% if @proxy_populate_config_channel != "0" %>
+#Red Hat Network username:
+expect -timeout -1 "sername:" { send -- "$username\r" }
+#
+## if/when we get prompted for our password, same as above, setting timeout
+#expect -timeout -1 "Password:" { send -- "$password\r" }
+
+#since had to put in username/password will prompt for saving off
+expect -timeout -1 "formatted as answers file?" { send -- "n\r" }
+<% end %>

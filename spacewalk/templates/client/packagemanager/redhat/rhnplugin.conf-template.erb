@@ -1,0 +1,6 @@
+# File managed by Puppet  on <%= scope.lookupvar('nodeclassify::puppet_server') %>
+
+[main]
+enabled = <%= @spacewalk_packagemanager_enable %>
+gpgcheck = <%= @spacewalk_packagemanager_gpgcheck %> 
+
